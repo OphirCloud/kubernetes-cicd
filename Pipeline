@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    environment  {
+        IMAGE_NAME =  'ophircloud/simple-login-api'
+        IMAGE_TAGE =  "${env.BUILD_NUMBER}"
+        DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
+        GIT_CREDENTIALS_ID = 'git-https-creds'
+ }
+ stages {
+     stage('Clone Source') {
+         steps {
+         git url: 'https://github.com/OphirCloud/kubernetes-cicd.git', branch: 'docker'
+         }
+     }
+     stage('Build Docker Image') {
+         steps {
+             script {
+                    sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                }
+            }
+        }
+        stage('Push to DockerHub') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                        sh "echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin"
+                        sh "docker push ${IMAGE_NAME}:${IMAGE_TAG}"
+                    }
+                }
+            }
+        }
+    }
+}
