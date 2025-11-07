@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        IMAGE_NAME = 'techwithadedayo/simple-login-api'
+        IMAGE_NAME = 'ophircloud/simple-login-api'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
         GIT_CREDENTIALS_ID = 'git-https-creds'
@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone Source') {
             steps {
-                git url: 'https://github.com/techwithadedayo/simple-login-api.git', branch: 'docker'
+                git url: 'https://github.com/OphirCloud/kubernetes-cicd.git', branch: 'docker'
             }
         }
         stage('Build Docker Image') {
@@ -50,3 +50,4 @@ pipeline {
         }
     }
 }
+
