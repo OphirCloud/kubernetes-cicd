@@ -5,7 +5,7 @@ pipeline {
         IMAGE_TAG = "${env.BUILD_NUMBER}"
         DOCKER_CREDENTIALS_ID = 'dockerhub-creds'
         GIT_CREDENTIALS_ID = 'git-https-creds'
-        GITOPS_REPO = 'https://github.com/techwithadedayo/kubernetes-tutorial.git'
+        GITOPS_REPO = 'https://github.com/OphirCloud/kubernetes-cicd.git'
     }
     stages {
         stage('Clone Source') {
